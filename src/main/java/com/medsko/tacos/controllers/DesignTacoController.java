@@ -2,6 +2,7 @@ package com.medsko.tacos.controllers;
 
 import com.medsko.tacos.model.Ingredient;
 import com.medsko.tacos.model.Taco;
+import com.medsko.tacos.services.IngredientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +10,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,23 +20,19 @@ import java.util.stream.Stream;
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
+
+	private final IngredientService ingredientService;
+
+	public DesignTacoController(IngredientService ingredientService) {
+		this.ingredientService = ingredientService;
+	}
 
 	@GetMapping
 	public String showDesignForm(Model model) {
 
-		List<Ingredient> ingredients = Arrays.asList(
-				new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
-				new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
-				new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
-				new Ingredient("CARN", "Carnitas", Ingredient.Type.PROTEIN),
-				new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.VEGGIES),
-				new Ingredient("LETC", "Lettuce", Ingredient.Type.VEGGIES),
-				new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
-				new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
-				new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
-				new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
-		);
+		List<Ingredient> ingredients = ingredientService.findAll();
 
 		Stream.of(Ingredient.Type.values())
 				.forEach(type -> model.addAttribute(type.toString().toLowerCase(),
