@@ -66,4 +66,9 @@ public class DesignTacoController {
 		return "redirect:/orders/current";
 	}
 
+	@ModelAttribute(name = "order")
+	public Order order() {
+		return new Order();
+	}
+
 }

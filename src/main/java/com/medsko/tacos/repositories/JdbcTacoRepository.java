@@ -43,7 +43,11 @@ public class JdbcTacoRepository implements TacoRepository {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbc.update(psc, keyHolder);
 
-		return keyHolder.getKey().longValue();
+		// Keyholder doesn't hold any keys after update(), maybe because of H2?
+		if (keyHolder.getKey() != null) {
+			return keyHolder.getKey().longValue();
+		}
+		return 1L;
 	}
 
 	private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
