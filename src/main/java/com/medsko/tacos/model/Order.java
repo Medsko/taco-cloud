@@ -3,6 +3,9 @@ package com.medsko.tacos.model;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -11,9 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "Taco_Order")
 public class Order {
 
 	private Long id;
+
+	@ManyToOne
+	private User user;
 
 	private Date placedAt;
 
