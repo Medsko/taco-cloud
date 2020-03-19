@@ -3,17 +3,21 @@ package com.medsko.tacos.repositories;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medsko.tacos.model.Order;
 import com.medsko.tacos.model.Taco;
+import com.medsko.tacos.model.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Repository
-public class JdbcOrderRepository implements OrderRepository {
+//@Repository
+@Deprecated // Use JPA repository
+public class JdbcOrderRepository {
 
 	private SimpleJdbcInsert orderInserter;
 	private SimpleJdbcInsert orderTacoInserter;
@@ -30,15 +34,20 @@ public class JdbcOrderRepository implements OrderRepository {
 		objectMapper = new ObjectMapper();
 	}
 
-	@Override
+//	@Override
 	public Order save(Order order) {
 		order.setPlacedAt(Date.valueOf(LocalDate.now()));
-		long orderId = saveOrderDetails(order);
+		final long orderId = saveOrderDetails(order);
 		order.setId(orderId);
 
 		order.getDesigns().forEach(taco -> saveTacoToOrder(taco, orderId));
 
 		return order;
+	}
+
+//	@Override
+	public List<Order> findFlooblecranksByUserOrderByPlacedAtDesc(User user, Pageable pageable) {
+		return new ArrayList<>();
 	}
 
 	private long saveOrderDetails(Order order) {

@@ -16,7 +16,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 @Repository
-public class JdbcTacoRepository implements TacoRepository {
+@Deprecated // Use JPA repository
+public class JdbcTacoRepository {
 
 	private JdbcTemplate jdbc;
 
@@ -24,9 +25,9 @@ public class JdbcTacoRepository implements TacoRepository {
 		this.jdbc = jdbc;
 	}
 
-	@Override
+//	@Override
 	public Taco save(Taco taco) {
-		long tacoId = saveTacoInfo(taco);
+		final long tacoId = saveTacoInfo(taco);
 		taco.setId(tacoId);
 		taco.getIngredients().forEach(ingredient -> saveIngredientToTaco(ingredient, tacoId));
 		return taco;
@@ -36,7 +37,7 @@ public class JdbcTacoRepository implements TacoRepository {
 
 		taco.setCreatedAt(Date.valueOf(LocalDate.now()));
 		PreparedStatementCreator psc = new PreparedStatementCreatorFactory(
-				"insert into Taco (name, createdAt) values (?, ?)", Types.VARCHAR, Types.DATE
+				"insert into Taco (name, created_at) values (?, ?)", Types.VARCHAR, Types.DATE
 		).newPreparedStatementCreator(
 				Arrays.asList(taco.getName(), new Timestamp(taco.getCreatedAt().getTime())));
 

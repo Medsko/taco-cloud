@@ -38,7 +38,7 @@ public class DesignTacoController {
 	@GetMapping
 	public String showDesignForm(Model model) {
 
-		List<Ingredient> ingredients = ingredientService.findAll();
+		final List<Ingredient> ingredients = ingredientService.findAll();
 
 		Stream.of(Ingredient.Type.values())
 				.forEach(type -> model.addAttribute(type.toString().toLowerCase(),

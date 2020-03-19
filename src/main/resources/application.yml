@@ -1,9 +1,15 @@
 server:
   port: 8443
   ssl:
-    key-store: file://Program Files/mykeys.jks
+    key-store: C:/Program Files/mykeys.jks
     key-store-password: letmein
-    key-password: letmein # TODO deze evt wijzigen naar Welkom123
+    key-password: Welkom123
+
+#spring.jpa.properties.javax.persistence.schema-generation:
+#  create-source: metadata
+#  scripts:
+#    action: create
+#    create-target: create.sql
 
 logging:
   file:
@@ -17,7 +23,6 @@ logging:
 taco:
   orders:
     pageSize: 10
-
 ---
 # Production profile properties
 spring:
@@ -32,10 +37,10 @@ spring:
     username: tacodb
     password: tacopassword
 #    schema:
-#      - order-schema.sql
-#      - ingredient-schema.sql
-#      - taco-schema.sql
-#      - user-schema.sql
+#      - order-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - ingredient-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - taco-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - user-DELEGATED_TO_SPRING_DATA_schema.sql
 #    data:
 #      - ingredient-data.sql
 
@@ -45,10 +50,10 @@ spring:
 #    username: tacodb
 #    password: tacopassword
 #    schema:
-#      - order-schema.sql
-#      - ingredient-schema.sql
-#      - taco-schema.sql
-#      - user-schema.sql
+#      - order-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - ingredient-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - taco-DELEGATED_TO_SPRING_DATA_schema.sql
+#      - user-DELEGATED_TO_SPRING_DATA_schema.sql
 #    data:
 #      - ingredient-data.sql
 
