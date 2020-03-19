@@ -1,4 +1,4 @@
-package com.medsko.tacos.services;
+package com.medsko.tacos.security;
 
 import com.medsko.tacos.model.User;
 import com.medsko.tacos.repositories.UserRepository;

@@ -65,10 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		auth
 //	    	.jdbcAuthentication()
 //			.dataSource(dataSource)
-//			.usersByUsernameQuery("select userName, password, enabled from Users"
-//				+ " where userName = ?")
-//			.authoritiesByUsernameQuery("select userName, authority from UserAuthorities" +
-//					" where userName = ?")
+//			.usersByUsernameQuery("select username, password, enabled from Users"
+//				+ " where username = ?")
+//			.authoritiesByUsernameQuery("select username, authority from UserAuthorities" +
+//					" where username = ?")
 //			.passwordEncoder(new BCryptPasswordEncoder());
 
 //  LDAP implementation

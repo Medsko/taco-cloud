@@ -1,9 +1,12 @@
 package com.medsko.tacos.controllers;
 
+import com.medsko.tacos.configuration.OrderProps;
 import com.medsko.tacos.model.Order;
 import com.medsko.tacos.model.User;
 import com.medsko.tacos.services.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,17 +23,29 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
+//@ConfigurationProperties(prefix = "taco.orders")      // Inflexible way of specifying properties (managed by controller itself)
 public class OrderController {
 
 	private final OrderService orderService;
 
-	public OrderController(OrderService orderService) {
+	private final OrderProps props;
+//	private int pageSize = 20;
+
+	public OrderController(OrderService orderService, OrderProps props) {
 		this.orderService = orderService;
+		this.props = props;
 	}
 
 	@GetMapping("/current")
 	public String showOrderForm(Model model) {
 		return "orderForm";
+	}
+
+	@GetMapping
+	public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+		Pageable pageable = PageRequest.of(0, props.getPageSize());
+		model.addAttribute("orders", orderService.findByUserOrderByPlacedAtDesc(user, pageable));
+		return "orderlist";
 	}
 
 	@PostMapping
@@ -49,4 +64,8 @@ public class OrderController {
 
 		return "redirect:/";
 	}
+
+//	public void setPageSize(int pageSize) {
+//		this.pageSize = pageSize;
+//	}
 }

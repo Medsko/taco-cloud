@@ -1,0 +1,58 @@
+server:
+  port: 8443
+  ssl:
+    key-store: file://Program Files/mykeys.jks
+    key-store-password: letmein
+    key-password: letmein # TODO deze evt wijzigen naar Welkom123
+
+logging:
+  file:
+    path: /var/logs/
+    name: TacoCloud.log
+  level:
+    tacos: DEBUG
+    org:
+      springframework.security: DEBUG
+
+taco:
+  orders:
+    pageSize: 10
+
+---
+# Production profile properties
+spring:
+  profiles: prod
+
+  logging:
+    level:
+      tacos: WARN
+
+  datasource:
+    url: jdbc:mysql://localhost/tacocloud
+    username: tacodb
+    password: tacopassword
+#    schema:
+#      - order-schema.sql
+#      - ingredient-schema.sql
+#      - taco-schema.sql
+#      - user-schema.sql
+#    data:
+#      - ingredient-data.sql
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost/tacocloud
+#    username: tacodb
+#    password: tacopassword
+#    schema:
+#      - order-schema.sql
+#      - ingredient-schema.sql
+#      - taco-schema.sql
+#      - user-schema.sql
+#    data:
+#      - ingredient-data.sql
+
+#spring:
+#  datasource:
+#    jndi-name: java:/comp/env/jdbc/tacoCloudDS
+#    TODO: JNDI checken

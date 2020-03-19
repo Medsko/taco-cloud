@@ -1,7 +1,6 @@
-package com.medsko.tacos.controllers;
+package com.medsko.tacos.security;
 
 import com.medsko.tacos.repositories.UserRepository;
-import com.medsko.tacos.security.RegistrationForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
