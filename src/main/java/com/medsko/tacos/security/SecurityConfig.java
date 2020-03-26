@@ -6,23 +6,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final DataSource dataSource;
+//	private final DataSource dataSource;
 
-	private final UserDetailsService userDetailsService;
+	private final UserService userService;
 
-	public SecurityConfig(DataSource dataSource, UserDetailsService userDetailsService) {
-		this.dataSource = dataSource;
-		this.userDetailsService = userDetailsService;
+	public SecurityConfig(UserService userService) {
+		this.userService = userService;
 	}
 
 	@Bean
@@ -87,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //				.ldif("classpath:users.ldif");
 
 		auth
-			.userDetailsService(userDetailsService)
+			.userDetailsService(userService)
 			.passwordEncoder(encoder());
 	}
 

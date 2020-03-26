@@ -40,15 +40,18 @@ public class DesignTacoController {
 
 		final List<Ingredient> ingredients = ingredientService.findAll();
 
+		// For each ingredient type, add a list of ingredients of that type to the model.
 		Stream.of(Ingredient.Type.values())
-				.forEach(type -> model.addAttribute(type.toString().toLowerCase(),
+				.forEach(type -> model.addAttribute(
+						type.toString().toLowerCase(),
 						ingredients.stream()
 								.filter(ingredient -> ingredient.getType() == type)
-								.collect(Collectors.toList())));
+								.collect(Collectors.toList()))
+				);
 
 		model.addAttribute("design", new Taco());
 
-		return "design";
+		return "designForm";
 	}
 
 	@PostMapping

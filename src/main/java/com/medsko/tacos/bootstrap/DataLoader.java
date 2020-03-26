@@ -10,6 +10,7 @@ import com.medsko.tacos.services.IngredientService;
 import com.medsko.tacos.services.TacoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -27,12 +28,17 @@ public class DataLoader implements CommandLineRunner {
 	private final UserRepository userRepository;
 	private final OrderRepository orderRepository;
 	private final TacoService tacoService;
+	private final PasswordEncoder encoder;
 
-	public DataLoader(IngredientService ingredientService, UserRepository userRepository, OrderRepository orderRepository, TacoService tacoService) {
+	public DataLoader(IngredientService ingredientService,
+	                  UserRepository userRepository,
+	                  OrderRepository orderRepository,
+	                  TacoService tacoService, PasswordEncoder encoder) {
 		this.ingredientService = ingredientService;
 		this.userRepository = userRepository;
 		this.orderRepository = orderRepository;
 		this.tacoService = tacoService;
+		this.encoder = encoder;
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class DataLoader implements CommandLineRunner {
 		);
 		ingredients.forEach(ingredientService::save);
 
-		User melle = new User("mvries", "Welkom123", "Melle Edsko de Vries",
+		User melle = new User("mvries", encoder.encode("Welkom123"), "Melle Edsko de Vries",
 				"Zamenhofdreef", "Utrecht", "Utrecht", "3562 VH", "0612343948");
 		userRepository.save(melle);
 
