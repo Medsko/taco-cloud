@@ -17,6 +17,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+//@RestResource(rel = "tacos", path = "tacos")  // Dit werkt op zich ook, maar omdat de Springers @RepositoryRestResource
+//  aanraden, heb ik die maar boven de TacoRepo geplakt...al heb ik er uiteindelijk maar van afgezien om itemResourceRel
+//  op een interessante/onmogelijke waarde te zetten (al heette een taco heel even een hotseflots in de JSON).
 public class Taco {
 
 	@Id

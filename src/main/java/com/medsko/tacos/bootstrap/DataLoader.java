@@ -3,8 +3,10 @@ package com.medsko.tacos.bootstrap;
 import com.medsko.tacos.model.Ingredient;
 import com.medsko.tacos.model.Order;
 import com.medsko.tacos.model.Taco;
+import com.medsko.tacos.model.TacoIndexCharacter;
 import com.medsko.tacos.model.User;
 import com.medsko.tacos.repositories.OrderRepository;
+import com.medsko.tacos.repositories.TacoIndexCharacterRepository;
 import com.medsko.tacos.repositories.UserRepository;
 import com.medsko.tacos.services.IngredientService;
 import com.medsko.tacos.services.TacoService;
@@ -29,16 +31,18 @@ public class DataLoader implements CommandLineRunner {
 	private final OrderRepository orderRepository;
 	private final TacoService tacoService;
 	private final PasswordEncoder encoder;
+	private final TacoIndexCharacterRepository characterRepository;
 
 	public DataLoader(IngredientService ingredientService,
 	                  UserRepository userRepository,
 	                  OrderRepository orderRepository,
-	                  TacoService tacoService, PasswordEncoder encoder) {
+	                  TacoService tacoService, PasswordEncoder encoder, TacoIndexCharacterRepository characterRepository) {
 		this.ingredientService = ingredientService;
 		this.userRepository = userRepository;
 		this.orderRepository = orderRepository;
 		this.tacoService = tacoService;
 		this.encoder = encoder;
+		this.characterRepository = characterRepository;
 	}
 
 	@Override
@@ -91,5 +95,16 @@ public class DataLoader implements CommandLineRunner {
 			order.getDesigns().forEach(tacoService::save);
 			orderRepository.save(order);
 		});
+
+		loadCharacters();
+	}
+
+	private void loadCharacters() {
+		List<TacoIndexCharacter> tacoChars = new ArrayList<>();
+		for (int i=0; i<26; i++) {
+			Character currentCharacter = (char) (i + 65);
+			tacoChars.add(new TacoIndexCharacter(currentCharacter));
+		}
+		characterRepository.saveAll(tacoChars);
 	}
 }

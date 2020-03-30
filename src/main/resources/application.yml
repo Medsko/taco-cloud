@@ -1,17 +1,21 @@
-server:
-  port: 8443
-  ssl:
-    key-store: C:/Program Files/mykeys.jks
-    key-store-password: letmein
-    key-password: Welkom123
-    key-store-type: JKS
-    key-alias: tomcat
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: C:/Program Files/mykeys.jks
+#    key-store-password: letmein
+#    key-password: Welkom123
+#    key-store-type: JKS
+#    key-alias: tomcat
 
 #spring.jpa.properties.javax.persistence.schema-generation:
 #  create-source: metadata
 #  scripts:
 #    action: create
 #    create-target: create.sql
+spring:
+  data:
+    rest.base-path: /api
+
 
 logging:
   file:

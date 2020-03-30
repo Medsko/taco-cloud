@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 public class DesignTacoController {
 
 	private final IngredientService ingredientService;
-
 	private final TacoService tacoService;
 
 	public DesignTacoController(IngredientService ingredientService, TacoService tacoService) {
