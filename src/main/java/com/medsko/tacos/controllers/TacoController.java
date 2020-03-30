@@ -8,13 +8,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RepositoryRestController
+@RequestMapping("/tacos")
 public class TacoController {
 
 	private final TacoRepository tacoRepository;
@@ -23,8 +26,10 @@ public class TacoController {
 		this.tacoRepository = tacoRepository;
 	}
 
-	@GetMapping(path = "/tacos/recent", produces = "application/hal+json")
-	public ResponseEntity<CollectionModel<TacoModel>> recentTacos() {
+	@GetMapping(path = "/recent", produces = "application/hal+json")
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public CollectionModel<TacoModel> recentTacos() {
 
 		PageRequest page = PageRequest.of(0, 12, Sort.by("createdAt").descending());
 		CollectionModel<TacoModel> recentTacos = new TacoModelAssembler().toCollectionModel(tacoRepository.findAll(page));
@@ -32,7 +37,7 @@ public class TacoController {
 		recentTacos.add(
 				linkTo(methodOn(TacoController.class).recentTacos()).withRel("recents"));
 
-		return new ResponseEntity<>(recentTacos, HttpStatus.OK);
+		return recentTacos;
 	}
 
 }
