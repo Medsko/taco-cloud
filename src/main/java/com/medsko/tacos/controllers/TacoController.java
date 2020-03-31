@@ -1,12 +1,17 @@
 package com.medsko.tacos.controllers;
 
+import com.medsko.tacos.model.Taco;
 import com.medsko.tacos.model.representation.TacoModel;
 import com.medsko.tacos.model.representation.TacoModelAssembler;
 import com.medsko.tacos.repositories.TacoRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.EntityLinks;
+import org.springframework.hateoas.server.RepresentationModelProcessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,4 +45,15 @@ public class TacoController {
 		return recentTacos;
 	}
 
+	@Bean
+	public RepresentationModelProcessor<RepresentationModel<TacoModel>> tacoModelProcessor(EntityLinks links) {
+		return model -> {
+				model.add(
+						links.linkFor(Taco.class)
+							.slash("recent")
+							.withRel("recents")
+				);
+				return model;
+		};
+	}
 }
