@@ -13,10 +13,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.hateoas.server.RepresentationModelProcessor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -43,6 +40,12 @@ public class TacoController {
 				linkTo(methodOn(TacoController.class).recentTacos()).withRel("recents"));
 
 		return recentTacos;
+	}
+
+	@GetMapping("/with-ingredient/{ingredientId}")
+	public CollectionModel<TacoModel> getByIngredient(@PathVariable("ingredientId") String ingredientId) {
+		PageRequest page = PageRequest.of(0, 5);
+		return new TacoModelAssembler().toCollectionModel(tacoRepository.findByIngredient(ingredientId, page));
 	}
 
 	@Bean
